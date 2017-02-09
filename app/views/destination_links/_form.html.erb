@@ -1,0 +1,25 @@
+<%= form_for @destination_link do |f| %>
+ 
+  <% if @destination_link.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@destination_link.errors.count, "error") %> prohibited
+        this link from being saved:
+      </h2>
+      <ul>
+        <% @destination_link.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+ 
+  <div class="form-group">
+    <%= f.label :url %>
+    <%= f.text_field :url, class: "form-control" %>
+  </div>
+ 
+  <div class="form-group">
+    <%= f.submit %>
+  </div>
+<% end %>

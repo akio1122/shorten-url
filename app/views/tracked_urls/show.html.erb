@@ -1,0 +1,27 @@
+<h3>
+  <strong>Url:</strong>
+  <%= @tracked_url.url %>
+</h3>
+
+<h4>Tracked Histories</h4>
+<table class="table">
+  <tr>
+    <th>IP address</th>
+    <th>Visited at</th>
+    <th colspan="3">Actions</th>
+  </tr>
+ 
+  <% @tracked_histories.each do |history| %>
+    <tr>
+      <td><%= history.ip_address %></td>
+      <td><%= history.created_at %></td>
+      <td><%= link_to 'Destroy', tracked_history_path(history, tracked_url_id: @tracked_url.to_param),
+              method: :delete,
+              data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %></td>
+    </tr>
+  <% end %>
+</table>
+ 
+ <br>
+ 
+<%= link_to 'Back', destination_link_path(@destination_link), class: 'btn btn-primary btn-xs' %>

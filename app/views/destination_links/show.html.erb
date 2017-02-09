@@ -1,0 +1,69 @@
+<h3>
+  <strong>Url:</strong>
+  <%= @destination_link.url %>
+</h3>
+
+<h4>Tracked Urls</h4>
+<table class="table">
+  <tr>
+    <th>Url</th>
+    <th>Visited Count</th>
+    <th colspan="3">Actions</th>
+  </tr>
+ 
+  <% @destination_link.tracked_urls.each do |tracked_url| %>
+    <tr>
+      <td><%= link_to tracked_url.url, tracked_url.url, class: "tracked_url", :data => { :id => tracked_url.to_param } %></td>
+      <td><%= tracked_url.tracked_histories.count %></td>
+      <td><%= link_to 'Show', destination_link_tracked_url_path(@destination_link, tracked_url), class: 'btn btn-primary btn-xs' %></td>
+    </tr>
+  <% end %>
+</table>
+
+<h4>Add a tracked url:</h4>
+<%= form_for([@destination_link, @destination_link.tracked_urls.build]) do |f| %>
+  <div class="form-group">
+    <%= f.label :url %>
+    <%= f.text_field :url, class: "form-control" %>
+  </div>
+  
+  <%= f.submit %>
+  
+<% end %>
+
+<br>
+ 
+<%= link_to 'Back', destination_links_path, class: 'btn btn-primary btn-xs' %>
+
+<script type="text/javascript">
+  $('.tracked_url').click(function(e) {    
+    var href;
+    var my_ip;
+    var tracked_url_id = $(this).data('id');
+    href = this.href;
+
+    e.preventDefault();
+
+    $.ajax({
+      url: "http://ipinfo.io",
+      dataType: 'jsonp',
+      success: function(response) {
+        console.log(response.ip);
+        my_ip = response.ip;
+
+        $.ajax({
+          url: '/api/v1/tracked_histories',
+          data: {
+            tracked_url_id: tracked_url_id,
+            ip_address: my_ip
+          },
+          type: 'POST',
+          success: function(data) {
+            document.location = href;
+            console.log(data);
+          }
+        });
+      }
+    });    
+  });
+</script>

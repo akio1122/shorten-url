@@ -1,0 +1,19 @@
+<h3>Listing Destination Links</h3>
+<table class="table">
+  <tr>
+    <th>Url</th>
+    <th colspan="3">Actions</th>
+  </tr>
+ 
+  <% @destination_links.each do |link| %>
+    <tr>
+      <td><%= link.url %></td>
+      <td><%= link_to 'Show', destination_link_path(link), class: 'btn btn-primary btn-xs' %></td>
+      <td><%= link_to 'Edit', edit_destination_link_path(link), class: 'btn btn-info btn-xs' %></td>
+      <td><%= link_to 'Destroy', destination_link_path(link),
+              method: :delete,
+              data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %></td>
+    </tr>
+  <% end %>
+</table>
+<%= link_to 'New Destination Link', new_destination_link_path, class: 'btn btn-success' %>
